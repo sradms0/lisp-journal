@@ -10,3 +10,4 @@
 .*.sw*
 .local
 .vscode
+runner.lisp
