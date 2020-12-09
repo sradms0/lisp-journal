@@ -1,3 +1,5 @@
+(ql:quickload "local-time")
+
 (defsystem "lisp-journal"
   :version "0.1.0"
   :author ""
