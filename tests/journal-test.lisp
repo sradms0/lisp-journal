@@ -25,5 +25,13 @@
                   (ok (= (length (entries (add-test-entry (make-test-journal) "1"))) 1)))
          (testing "add multiple entries"
                   (ok (= (length (entries (add-n-test-entries (make-test-journal) 10))) 10))))
-                  
-;; NOTE: To run this test file, execute `(asdf:test-system :my-project)' in your Lisp.
+
+(deftest remove-entry-test
+         (testing "remove existing entry"
+                  (ok (equal
+                        (entry-package:title (remove-entry (add-n-test-entries (make-test-journal) 5) "test-title 1"))
+                        "test-title 1")))
+         (testing "remove non-existing entry"
+                  (ok (signals
+                        (entry-package:title (remove-entry (add-n-test-entries (make-test-journal) 5) "test-title 6"))))))
+                        

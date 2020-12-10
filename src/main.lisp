@@ -40,7 +40,5 @@
 
 
 ;;(get-all-entries-journal)
-(search-for-entry-journal "entry title 1")
-
-      
-
+;broken, needs testing and to be fixed
+;(search-for-entry-journal "entry title 1")
