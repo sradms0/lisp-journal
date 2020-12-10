@@ -27,10 +27,9 @@
    (return-from get-all-entries (entries object)))
 
 (defmethod search-for-entry ((object journal) text)
-  "Search for an entry in the journal"
-  (loop for x from 0 to  (- (list-length (entries object)) 1))
-  if(string= (let* ((journal-entry (nth x (entries object)))) (journal-entry title)) text)
-  do(return-from search-for-entry (journal-entry)))
+  (let ((found (find-if #'(lambda (n-entry) (equal text (title n-entry))) (entries object))))
+    (cond (found found)
+          (t (error "Entry not found")))))
 
 (defmethod remove-entry ((object journal) searched-title)
   "Remove an entry from this journal"

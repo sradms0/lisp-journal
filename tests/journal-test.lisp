@@ -38,3 +38,18 @@
                   (ok (signals
                         (entry-package:title (remove-entry (make-test-journal) "test-title 6"))))))
 
+(deftest search-for-entry-test
+        (testing "search for existing entry"
+          (ok (equal 
+                (entry-package:title (search-for-entry (add-n-test-entries (make-test-journal) 5) "test-title 3"))
+                "test-title 3")))
+        (testing "search for non-existing entry"
+          (ok (signals
+                (entry-package:title (search-for-entry (add-n-test-entries (make-test-journal) 5) "test-title 6"))
+                )))
+        (testing "search for empty journal"
+          (ok (signals
+                (entry-package:title (search-for-entry(make-test-journal)  "test-title 6"))
+                )))
+                
+)
