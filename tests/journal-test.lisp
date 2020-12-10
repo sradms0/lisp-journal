@@ -29,11 +29,9 @@
 (deftest remove-entry-test
          (testing "remove existing entry"
                   (ok (equal
-                        (title (remove-entry (add-n-test-entries (make-test-journal) 5) "test-title 1"))
+                        (entry-package:title (remove-entry (add-n-test-entries (make-test-journal) 5) "test-title 1"))
                         "test-title 1")))
          (testing "remove non-existing entry"
-                  (ok (equal
-                        (title (remove-entry (add-n-test-entries (make-test-journal) 5) "test-title 6"))
-                        "test-title 6")))) 
-
-;; NOTE: To run this test file, execute `(asdf:test-system :my-project)' in your Lisp.
+                  (ok (signals
+                        (entry-package:title (remove-entry (add-n-test-entries (make-test-journal) 5) "test-title 6"))))))
+                        

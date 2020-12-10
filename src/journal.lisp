@@ -1,5 +1,6 @@
 (defpackage journal-package
-  (:use :cl)
+  (:use :cl 
+        :entry-package)
   (:export :journal
            :add-entry
            :remove-entry
@@ -19,9 +20,11 @@
   "Add a new entry to this journal"
     (setf (entries object) (append (entries object) (list entry))))
 
-(defmethod remove-entry ((object journal) title)
+(defmethod remove-entry ((object journal) searched-title)
   "Remove an entry from this journal"
-  (first (entries object)))
-  
-  
-
+  (defun equal-title (n-entry)
+    (equal searched-title (title n-entry)))
+  (let ((found (find-if #'equal-title (entries object))))
+    (cond (found (setf (entries object) (delete-if #'equal-title (entries object))) found)
+          (t (error "Entry not found")))))
+          

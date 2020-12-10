@@ -8,8 +8,8 @@
   :components ((:module "src"
                 :components
                 ((:file "main" :depends-on ("entry" "journal"))
+                 (:file "journal" :depends-on ("entry"))
                  (:file "entry")
-                 (:file "journal")
                  )))
   :description ""
   :in-order-to ((test-op (test-op "lisp-journal/tests"))))
