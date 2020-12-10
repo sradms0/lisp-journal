@@ -33,5 +33,8 @@
                         "test-title 1")))
          (testing "remove non-existing entry"
                   (ok (signals
-                        (entry-package:title (remove-entry (add-n-test-entries (make-test-journal) 5) "test-title 6"))))))
-                        
+                        (entry-package:title (remove-entry (add-n-test-entries (make-test-journal) 5) "test-title 6")))))
+         (testing "remove entry from empty journal"
+                  (ok (signals
+                        (entry-package:title (remove-entry (make-test-journal) "test-title 6"))))))
+
