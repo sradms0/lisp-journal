@@ -21,20 +21,21 @@
     test-entries))
 
     
-;; (deftest edit-text-test
-;; 	(testing "edit text"
-;; 		(ok (equal
-;; 			(entry-package:text (edit-text(add-n-test-entires (make-test-journal) 5) "test-title 1" "text-edited")) "text-edited")))
-;;   (testing "remove non-existing entry"
-;;                   (ok (signals
-;;                         (entry-package:title (remove-entry (add-n-test-entries (make-test-journal) 5) "test-title 6")))))
-;; )
-
 (deftest edit-title-test
 	(testing "edit title"
 		(ok (equal
 			(entry-package:title (edit-title (make-test-entry "1") "title-edited"))
       "title-edited")))
+  (testing "blank title error"
+    (ok (signals
+      (entry-package:title (edit-title (make-test-entry "1") "")))))
+)
+
+(deftest edit-text-test
+	(testing "edit text"
+		(ok (equal
+			(entry-package:text (edit-text (make-test-entry "1") "text-edited"))
+      "text-edited")))
 )
 
 
