@@ -11,3 +11,5 @@
    (data
      :initform ()))
   (:documentation "Persists journals and their entries to a file"))
+
+

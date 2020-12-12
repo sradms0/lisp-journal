@@ -33,7 +33,7 @@
                 :components
                 ((:file "database-test")
                  (:file "entry-test")
-                (:file "journal-test")
+                 (:file "journal-test")
                  )))
   :description "Test system for lisp-journal"
   :perform (test-op (op c) (symbol-call :rove :run c)))
