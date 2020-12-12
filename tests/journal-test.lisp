@@ -50,6 +50,17 @@
         (testing "search for empty journal"
           (ok (signals
                 (entry-package:title (search-for-entry(make-test-journal)  "test-title 6"))
-                )))
-                
+                ))))
+
+(deftest get-all-entries-test
+        (testing "get all entries"
+                  (ok (= (length (get-all-entries (add-n-test-entries (make-test-journal) 10))) 10)))
+        (testing "get all entries for an empty journal"
+                  (ok (= (length (get-all-entries (add-n-test-entries (make-test-journal) 0))) 0)))
+        (testing "make sure first entry is present"
+          (ok (equal 
+                (entry-package:title (nth 0 (get-all-entries (add-n-test-entries (make-test-journal) 5))))
+                "test-title 1")))
+          
 )
+
