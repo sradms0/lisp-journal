@@ -4,7 +4,9 @@
            :date
            :title 
            :text
-           :bookmark))
+           :bookmark
+           :edit-title
+           :edit-text))
 (in-package :entry-package)
 
 (defclass entry ()
@@ -25,3 +27,17 @@
      :initform nil))
   (:documentation "An entry to store one's thoughts"))
 
+
+(defmacro removef (element place)
+   `(setf ,place (remove ,element ,place)))
+
+(defmethod edit-title((object entry) titleIn)
+    "Changes the title of given entry"
+    (cond ((= (length titleIn) 0) (error "must supply entry-title"))
+          (t (setf (title object) titleIn) (identity object))))
+
+
+(defmethod edit-text((object entry) textIn)
+    "Changes the text of given entry"
+    (cond ((= (length textIn) 0) (error "must supply entry-text"))
+          (t (setf (text object) textIn) (identity object))))
