@@ -16,9 +16,11 @@
 
 (defun make-n-test-entries (n)
   (let ((test-entries ()))
-  (dotimes (i n)
-    (cons (make-test-entry (write-to-string (+ i 1))) test-entries))
-  test-entries))
+    (dotimes (i n)
+      (setf  test-entries (cons (make-test-entry (write-to-string (+ i 1))) test-entries)))
+    test-entries))
+
+    
 ;; (deftest edit-text-test
 ;; 	(testing "edit text"
 ;; 		(ok (equal
@@ -28,11 +30,11 @@
 ;;                         (entry-package:title (remove-entry (add-n-test-entries (make-test-journal) 5) "test-title 6")))))
 ;; )
 
-;; (deftest edit-title-test
-;; 	(testing "edit title"
-;; 		(ok (equal
-;; 			(entry-package:text (edit-title((make-test-entry) "title-edited")) "title-edited")))
-;; )
+(deftest edit-title-test
+	(testing "edit title"
+		(ok (equal
+			(entry-package:title (edit-title (make-test-entry "1") "title-edited"))
+      "title-edited")))
+)
 
-  (print (make-n-test-entries 5))
 
