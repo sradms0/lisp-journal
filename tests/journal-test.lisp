@@ -59,16 +59,16 @@
                         (length (get-all-bookmarked-entries 
                                   (add-test-entry (add-n-test-entries (make-test-journal) 10) "bookmarked!" t))) 
                         1)))
-         (testing "get entries from journal with all bookmarked" 
+         (testing "get entries from journal of all bookmarked" 
                   (ok (= 
                         (length (get-all-bookmarked-entries 
                                   (add-n-test-entries (make-test-journal) 10 t))) 
                         10)))
-         (testing "get entries with none bookmarked" 
-                  (ok (= 
+         (testing "get entries from journal of none bookmarked" 
+                  (ok (signals 
                         (length (get-all-bookmarked-entries 
-                                  (add-n-test-entries (make-test-journal) 10))) 
-                        0)))
-         (testing "get entries bookmarked from empty journal"
+                                  (add-n-test-entries (make-test-journal) 10)))))) 
+                        
+         (testing "get bookmarked entries from empty journal"
                   (ok (signals 
                         (get-all-bookmarked-entries (make-test-journal))))))

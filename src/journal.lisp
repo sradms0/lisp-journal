@@ -42,6 +42,10 @@
 
 (defmethod get-all-bookmarked-entries ((object journal))
   "Get all entries with bookmarks"
-  nil)
-  
-  
+    (let ((found ()))
+      (dolist (n-entry (entries object))
+        (if (bookmark n-entry) (setf found (cons n-entry found))))
+      (cond (found found)
+            (t (error "No bookmarked entries found")))))
+            
+      
