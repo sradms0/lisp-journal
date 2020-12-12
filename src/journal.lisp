@@ -6,7 +6,8 @@
            :add-entry
            :get-all-entries
            :search-for-entry
-           :remove-entry))
+           :remove-entry
+           :get-all-bookmarked-entries))
 (in-package :journal-package)
   
 (defclass journal ()
@@ -39,3 +40,12 @@
     (cond (found (setf (entries object) (delete-if #'equal-title (entries object))) found)
           (t (error "Entry not found")))))
 
+(defmethod get-all-bookmarked-entries ((object journal))
+  "Get all entries with bookmarks"
+    (let ((found ()))
+      (dolist (n-entry (entries object))
+        (if (bookmark n-entry) (setf found (cons n-entry found))))
+      (cond (found found)
+            (t (error "No bookmarked entries found")))))
+            
+      
