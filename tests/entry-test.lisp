@@ -36,6 +36,9 @@
 		(ok (equal
 			(entry-package:text (edit-text (make-test-entry "1") "text-edited"))
       "text-edited")))
+   (testing "blank Text error"
+    (ok (signals
+      (entry-package:text (edit-text (make-test-entry "1") "")))))
 )
 
 

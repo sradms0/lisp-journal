@@ -33,15 +33,11 @@
 
 (defmethod edit-title((object entry) titleIn)
     "Changes the title of given entry"
-    (cond ((= (length titleIn) 0) (error "must supply entry-title")
-    (t(
-    (setf (title object) titleIn)
-    (identity object)))))
-)
+    (cond ((= (length titleIn) 0) (error "must supply entry-title"))
+          (t (setf (title object) titleIn) (identity object))))
 
 
 (defmethod edit-text((object entry) textIn)
     "Changes the text of given entry"
-    (setf (text object) textIn)
-    (identity object)
-)
+    (cond ((= (length textIn) 0) (error "must supply entry-text"))
+          (t (setf (text object) textIn) (identity object))))
