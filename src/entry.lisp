@@ -25,3 +25,17 @@
      :initform nil))
   (:documentation "An entry to store one's thoughts"))
 
+
+(defmacro removef (element place)
+   `(setf ,place (remove ,element ,place)))
+
+(defmethod editTitle((object entry) titleIn)
+    "Changes the title of given entry"
+    (setf (title object) titleIn)
+)
+
+
+(defmethod editText((object entry) text)
+    "Changes the text of given entry"
+    ()
+)
