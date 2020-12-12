@@ -7,9 +7,19 @@
   :depends-on ("local-time")
   :components ((:module "src"
                 :components
-                ((:file "main" :depends-on ("entry" "journal"))
-                 (:file "journal" :depends-on ("entry"))
+                ((:file "main" 
+                        :depends-on 
+                        ("database"
+                         "entry" 
+                         "journal"))
+                 (:file "journal" 
+                        :depends-on 
+                        ("entry"))
                  (:file "entry")
+                 (:file "database"
+                        :depends-on
+                        ("entry"
+                         "journal"))
                  )))
   :description ""
   :in-order-to ((test-op (test-op "lisp-journal/tests"))))
@@ -21,7 +31,8 @@
                "rove")
   :components ((:module "tests"
                 :components
-                ((:file "entry-test")
+                ((:file "database-test")
+                 (:file "entry-test")
                 (:file "journal-test")
                  )))
   :description "Test system for lisp-journal"
