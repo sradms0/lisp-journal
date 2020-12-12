@@ -7,7 +7,8 @@
 
 (defclass database ()
   ((filepath
-     :initarg :filepath)
+     :initarg :filepath
+     :initform (error "must supply filepath"))
    (data
      :initform ()))
   (:documentation "Persists journals and their entries to a file"))
