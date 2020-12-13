@@ -8,6 +8,7 @@
 *~
 .#*
 .*.sw*
+*.ldb
 .local
 .vscode
 runner.lisp

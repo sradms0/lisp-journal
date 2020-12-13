@@ -2,7 +2,10 @@
   (:use :cl
         :entry-package 
         :journal-package)
-  (:export :database))
+  (:export :database
+           :data
+           :save-journal))
+           
 (in-package :database-package)
 
 (defclass database ()
@@ -13,4 +16,6 @@
      :initform ()))
   (:documentation "Persists journals and their entries to a file"))
 
-
+(defmethod save-journal ((object database) journal)
+  nil)
+  
