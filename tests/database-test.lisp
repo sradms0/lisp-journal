@@ -7,7 +7,7 @@
 (in-package :database-test)
 
 (defun make-test-db ()
-  (make-instance 'database :filepath "./test.ldb"))
+  (make-instance 'database :filepath "./tests/test.ldb"))
   
 (defun make-test-journal ()
   (make-instance 'journal :owner "test-owner"))
