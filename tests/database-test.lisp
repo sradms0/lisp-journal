@@ -47,3 +47,18 @@
                            (with-standard-io-syntax 
                              (length (read in))))
                         50))))
+
+(deftest load-test
+         "NOTE: tests/test/ldb file with atleast () must exist"
+         (testing "loading empty-journal file"
+                  (let ((test-db (make-test-db))
+                        (test-journal (make-test-journal)))
+                    (load-journal test-db test-journal)
+                    (ok (= (length (entries test-journal)) 0))))
+
+         "NOTE: tests/test/ldb file with atleast 5 plist entries must exist"
+         (testing "loading full-journal file"
+                  (let ((test-db (make-test-db))
+                        (test-journal (make-test-journal)))
+                    (load-journal test-db test-journal)
+                    (ok (= (length (entries test-journal)) 5)))))

@@ -6,7 +6,8 @@
   (:export :database
            :data
            :filepath
-           :save-journal))
+           :save-journal
+           :load-journal))  
            
 (in-package :database-package)
 
@@ -32,4 +33,7 @@
                            :if-exists :supersede)
        (with-standard-io-syntax
          (print entries-plist out)))))
+  
+(defmethod load-journal ((object database) journal)
+  nil)
   
