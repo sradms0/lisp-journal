@@ -55,7 +55,11 @@
 )
 (defun edit-text-of-entry-user-input()
     (edit-text (search-for-entry-user-input) (prompt-read "Enter new text"))
-)  
+)
+
+(defun add-bookmark-to-entry()
+  (add-bookmark (search-for-entry-user-input))
+)
 
 (defun create-database()
   (defvar *db*)
@@ -76,7 +80,7 @@
     (setf user-input (prompt-read "Do you want to 
     'add entry[1]', 'searchForEntry[2]', 
     'remove entry[3]', 'get all entries[4], 
-    get all bookedmared entries[5], edit title of entry[6], or edit text of entry[7] "))
+    get all bookedmared entries[5], edit title of entry[6], edit text of entry[7], or add book mark to entry[8] "))
         
         (cond
             ;;((= (parse-integer user-input) 0 ) (print(create-journal (prompt-read "Enter name of journal"))))
@@ -87,18 +91,23 @@
             ((= (parse-integer user-input) 5 ) (print(get-all-bookmarked--entries-user-input)))
             ((= (parse-integer user-input) 6 ) (print(edit-title-of-entry-user-input)))
             ((= (parse-integer user-input) 7 ) (print(edit-text-of-entry-user-input)))
-            
+            ((= (parse-integer user-input) 8 ) (add-bookmark-to-entry))
         )(save-user-journal)
-    )
-
+        )
+  
 )
 
 (defun main()
   (create-database)
   (create-journal "demo")
-  (load-user-journal
-      (loop (prompt-user))
-      
-      (if (not (y-or-n-p "Do you want to do something else? [y/n]: ")) return)))
+  (load-user-journal)
+  (loop (prompt-user)
+      (if (not (y-or-n-p "Do you want to do something else? [y/n]: ")) (return)))
+)
 
-;(main)
+
+(main)
+
+(defun add-cds ()
+  (loop (add-record (prompt-for-cd))
+      (if (not (y-or-n-p "Another? [y/n]: ")) (return))))
