@@ -46,4 +46,4 @@
   (setf (bookmark object) t))
 
 (defmethod remove-bookmark ((object entry))
-  nil)
+  (setf (bookmark object) nil))
