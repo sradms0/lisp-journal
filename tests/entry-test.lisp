@@ -22,23 +22,19 @@
 
     
 (deftest edit-title-test
-	(testing "edit title"
-		(ok (equal
-			(entry-package:title (edit-title (make-test-entry "1") "title-edited"))
-      "title-edited")))
+  (testing "edit title"
+    (ok (equal (entry-package:title (edit-title (make-test-entry "1") "title-edited")) 
+               "title-edited")))
   (testing "blank title error"
-    (ok (signals
-      (entry-package:title (edit-title (make-test-entry "1") "")))))
-)
+    (ok (signals (entry-package:title (edit-title (make-test-entry "1") "")))))
+  (testing "nil title error"
+    (ok (signals (entry-package:title (edit-title (make-test-entry "1") nil)))))) 
 
 (deftest edit-text-test
-	(testing "edit text"
-		(ok (equal
-			(entry-package:text (edit-text (make-test-entry "1") "text-edited"))
-      "text-edited")))
+  (testing "edit text"
+    (ok (equal (entry-package:text (edit-text (make-test-entry "1") "text-edited")) 
+               "text-edited"))
    (testing "blank Text error"
-    (ok (signals
-      (entry-package:text (edit-text (make-test-entry "1") "")))))
-)
-
-
+    (ok (signals (entry-package:text (edit-text (make-test-entry "1") ""))))))
+  (testing "nil text error"
+    (ok (signals (entry-package:title (edit-text (make-test-entry "1") nil))))))
