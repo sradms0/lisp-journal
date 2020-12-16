@@ -26,7 +26,8 @@
         (push (list 
                 :date (local-time:format-timestring nil (date n-entry)) 
                 :title (title n-entry)  
-                :text (text n-entry))
+                :text (text n-entry)
+                :bookmark (bookmark n-entry)) 
               entries-plist))
       (with-open-file (out (filepath object)
                            :direction :output
@@ -45,5 +46,6 @@
                       (make-instance 'entry 
                             :date (local-time:parse-timestring (getf props :date))
                             :title (getf props :title) 
-                            :text (getf props :text)))))))))
+                            :text (getf props :text)
+                            :bookmark (getf props :bookmark)))))))))  
 
