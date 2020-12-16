@@ -49,10 +49,10 @@
                         50))))
 
 (deftest load-test
-         "NOTE: tests/test/ldb file with atleast () must exist"
          (testing "loading empty-journal file"
                   (let ((test-db (make-test-db))
                         (test-journal (make-test-journal)))
+                    (save-journal test-db test-journal)
                     (load-journal test-db test-journal)
                     (ok (= (length (entries test-journal)) 0))))
 
