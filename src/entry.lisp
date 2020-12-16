@@ -42,5 +42,5 @@
           (t (setf (text object) textIn) (identity object))))
 
 (defmethod add-bookmark ((object entry))
-  nil)
+  (setf (bookmark object) t))
   
