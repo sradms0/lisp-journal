@@ -3,6 +3,7 @@
         :entry-package)
   (:export :journal
            :entries
+           :owner
            :add-entry
            :get-all-entries
            :search-for-entry
