@@ -56,9 +56,9 @@
                     (load-journal test-db test-journal)
                     (ok (= (length (entries test-journal)) 0))))
 
-         "NOTE: tests/test/ldb file with atleast 5 plist entries must exist"
          (testing "loading full-journal file"
                   (let ((test-db (make-test-db))
                         (test-journal (make-test-journal)))
+                    (save-journal (make-test-db) (add-n-test-entries (make-test-journal) 50))
                     (load-journal test-db test-journal)
-                    (ok (= (length (entries test-journal)) 5)))))
+                    (ok (= (length (entries test-journal)) 50)))))
