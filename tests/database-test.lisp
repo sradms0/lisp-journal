@@ -59,4 +59,9 @@
                         (test-journal (make-test-journal)))
                     (save-journal (make-test-db) (add-n-test-entries (make-test-journal) 50))
                     (load-journal test-db test-journal)
-                    (ok (= (length (entries test-journal)) 50)))))
+                    (ok (= (length (entries test-journal)) 50))))
+
+         (testing "loading non-existent journal file"
+                  (if (probe-file "./tests/test.ldb") 
+                      (delete-file "./tests/test.ldb"))
+                  (ok (signals (load-journal (make-test-db) (make-test-journal))))))
