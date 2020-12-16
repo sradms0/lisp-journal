@@ -7,7 +7,8 @@
            :bookmark
            :add-bookmark
            :edit-title
-           :edit-text))
+           :edit-text
+           :remove-bookmark))
 (in-package :entry-package)
 
 (defclass entry ()
@@ -43,4 +44,6 @@
 
 (defmethod add-bookmark ((object entry))
   (setf (bookmark object) t))
-  
+
+(defmethod remove-bookmark ((object entry))
+  nil)

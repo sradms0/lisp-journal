@@ -9,10 +9,11 @@
 
 ;; NOTE: To run this test file, execute `(asdf:test-system :my-project)' in your Lisp.
 
-(defun make-test-entry (suffix)
+(defun make-test-entry (suffix &optional with-bookmark)
   (make-instance 'entry 
                  :title (concatenate 'string "test-title " suffix) 
-                 :text (concatenate 'string "test-text " suffix)))
+                 :text (concatenate 'string "test-text " suffix)
+                 :bookmark with-bookmark))
 
 (defun make-n-test-entries (n)
   (let ((test-entries ()))
@@ -44,3 +45,9 @@
                  (let ((test-entry (make-test-entry "1")))
                    (add-bookmark test-entry)
                    (ok (equal (bookmark test-entry) t)))))
+
+(deftest remove-bookmark-test
+         (testing "remove bookmark from entry"
+                  (let ((test-entry (make-test-entry "1" t)))
+                    (remove-bookmark test-entry)
+                    (ok (not (bookmark test-entry))))))
