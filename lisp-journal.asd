@@ -7,20 +7,9 @@
   :depends-on ("local-time")
   :components ((:module "src"
                 :components
-<<<<<<< Updated upstream
-                ((:file "main" 
-                        :depends-on 
-                        ("database"
-                         "entry" 
-                         "journal"))
-                 (:file "journal" 
-                        :depends-on 
-                        ("entry"))
-=======
                 ((:file "main" :depends-on ("entry" "journal"))
                  (:file "userInterface" :depends-on ("entry" "journal")) 
                  (:file "journal" :depends-on ("entry"))
->>>>>>> Stashed changes
                  (:file "entry")
                  (:file "database"
                         :depends-on
