@@ -21,7 +21,8 @@
 
 (defmethod add-entry ((object journal) entry)
   "Add a new entry to this journal"
-    (setf (entries object) (append (entries object) (list entry))))
+  (cond ((not entry) (error "entry is has no data (nil)"))
+        (t (setf (entries object) (append (entries object) (list entry))))))
 
 (defmethod get-all-entries ((object journal))
   "Get all the entries"
