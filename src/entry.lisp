@@ -11,6 +11,7 @@
 
 (defclass entry ()
   ((date
+     :initarg :date
      :accessor date
      :initform (local-time:now))
    (title 

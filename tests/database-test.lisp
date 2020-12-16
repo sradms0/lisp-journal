@@ -31,8 +31,6 @@
   (testing "no file given" (ok (signals (make-instance 'database)))))
 
 (deftest save-test
-         "NOTE: tests/test.ldb file with atleast () must exist for tests to run"
-         
          (testing "saving empty-journal"
                   (save-journal (make-test-db) (make-test-journal))
                   (ok (equal 

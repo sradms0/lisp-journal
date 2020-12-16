@@ -35,5 +35,11 @@
          (print entries-plist out)))))
   
 (defmethod load-journal ((object database) journal)
-  nil)
-  
+    (with-open-file (in (filepath object))
+       (with-standard-io-syntax 
+         (dolist (props (read in))
+           (add-entry journal 
+              (make-instance 'entry 
+                    :date (local-time:parse-timestring (getf props :date))
+                    :title (getf props :title) 
+                    :text (getf props :text)))))))
