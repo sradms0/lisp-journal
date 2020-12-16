@@ -6,7 +6,8 @@
   (:export :database
            :data
            :filepath
-           :save-journal))
+           :save-journal
+           :load-journal))  
            
 (in-package :database-package)
 
@@ -33,3 +34,12 @@
        (with-standard-io-syntax
          (print entries-plist out)))))
   
+(defmethod load-journal ((object database) journal)
+    (with-open-file (in (filepath object))
+       (with-standard-io-syntax 
+         (dolist (props (read in))
+           (add-entry journal 
+              (make-instance 'entry 
+                    :date (local-time:parse-timestring (getf props :date))
+                    :title (getf props :title) 
+                    :text (getf props :text)))))))

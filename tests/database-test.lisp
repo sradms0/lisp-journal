@@ -31,8 +31,6 @@
   (testing "no file given" (ok (signals (make-instance 'database)))))
 
 (deftest save-test
-         "NOTE: tests/test.ldb file with atleast () must exist for tests to run"
-         
          (testing "saving empty-journal"
                   (save-journal (make-test-db) (make-test-journal))
                   (ok (equal 
@@ -47,3 +45,18 @@
                            (with-standard-io-syntax 
                              (length (read in))))
                         50))))
+
+(deftest load-test
+         (testing "loading empty-journal file"
+                  (let ((test-db (make-test-db))
+                        (test-journal (make-test-journal)))
+                    (save-journal test-db test-journal)
+                    (load-journal test-db test-journal)
+                    (ok (= (length (entries test-journal)) 0))))
+
+         (testing "loading full-journal file"
+                  (let ((test-db (make-test-db))
+                        (test-journal (make-test-journal)))
+                    (save-journal (make-test-db) (add-n-test-entries (make-test-journal) 50))
+                    (load-journal test-db test-journal)
+                    (ok (= (length (entries test-journal)) 50)))))
