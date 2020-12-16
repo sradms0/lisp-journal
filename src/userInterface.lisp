@@ -96,9 +96,9 @@
 (defun main()
   (create-database)
   (create-journal "demo")
-  (load-user-journal)
+  (load-user-journal
       (loop (prompt-user))
       
-      (if (not (y-or-n-p "Do you want to do something else? [y/n]: ")) return))
+      (if (not (y-or-n-p "Do you want to do something else? [y/n]: ")) return)))
 
-(main)
+;(main)

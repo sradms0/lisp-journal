@@ -38,3 +38,9 @@
     (ok (signals (entry-package:text (edit-text (make-test-entry "1") ""))))))
   (testing "nil text error"
     (ok (signals (entry-package:title (edit-text (make-test-entry "1") nil))))))
+
+(deftest add-bookmark-test
+        (testing "add bookmark to entry"
+                 (let ((test-entry (make-test-entry "1")))
+                   (add-bookmark test-entry)
+                   (ok (equal (bookmark test-entry) t)))))

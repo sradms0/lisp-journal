@@ -5,6 +5,7 @@
            :title 
            :text
            :bookmark
+           :add-bookmark
            :edit-title
            :edit-text))
 (in-package :entry-package)
@@ -29,9 +30,6 @@
   (:documentation "An entry to store one's thoughts"))
 
 
-(defmacro removef (element place)
-   `(setf ,place (remove ,element ,place)))
-
 (defmethod edit-title((object entry) titleIn)
     "Changes the title of given entry"
     (cond ((= (length titleIn) 0) (error "must supply entry-title"))
@@ -42,3 +40,7 @@
     "Changes the text of given entry"
     (cond ((= (length textIn) 0) (error "must supply entry-text"))
           (t (setf (text object) textIn) (identity object))))
+
+(defmethod add-bookmark ((object entry))
+  nil)
+  
