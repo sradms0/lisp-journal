@@ -61,6 +61,10 @@
   (add-bookmark (search-for-entry-user-input))
 )
 
+(defun remove-bookmark-from-entry()
+  (remove-bookmark (search-for-entry-user-input))
+)
+
 (defun create-database()
   (defvar *db*)
    (setf *db* (make-instance 'database :filepath "./journal.ldb"))
@@ -71,6 +75,9 @@
 )
 
 (defun load-user-journal()
+  (if (not (probe-file (filepath *db*)))
+    (save-user-journal)
+  ) 
   (load-journal *db*  *journal-1*)
 )
   
@@ -80,7 +87,8 @@
     (setf user-input (prompt-read "Do you want to 
     'add entry[1]', 'searchForEntry[2]', 
     'remove entry[3]', 'get all entries[4], 
-    get all bookedmared entries[5], edit title of entry[6], edit text of entry[7], or add book mark to entry[8] "))
+    get all bookedmared entries[5], edit title of entry[6], edit text of entry[7], 
+    add book mark to entry[8], or remove bookmark[9] "))
         
         (cond
             ;;((= (parse-integer user-input) 0 ) (print(create-journal (prompt-read "Enter name of journal"))))
@@ -92,6 +100,7 @@
             ((= (parse-integer user-input) 6 ) (print(edit-title-of-entry-user-input)))
             ((= (parse-integer user-input) 7 ) (print(edit-text-of-entry-user-input)))
             ((= (parse-integer user-input) 8 ) (add-bookmark-to-entry))
+            ((= (parse-integer user-input) 9 ) (remove-bookmark-from-entry))
         )(save-user-journal)
         )
   
@@ -105,9 +114,4 @@
       (if (not (y-or-n-p "Do you want to do something else? [y/n]: ")) (return)))
 )
 
-
 (main)
-
-(defun add-cds ()
-  (loop (add-record (prompt-for-cd))
-      (if (not (y-or-n-p "Another? [y/n]: ")) (return))))
