@@ -27,7 +27,7 @@
          (testing "add multiple entries"
                   (ok (= (length (entries (add-n-test-entries (make-test-journal) 10))) 10)))
          (testing "add nil entry"
-                  (ok (signal (entries (add-test-entry (make-test-journal) "1")))))) 
+                  (ok (signals (add-entry (make-test-journal) nil))))) 
 
 (deftest remove-entry-test
          (testing "remove existing entry"
