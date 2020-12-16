@@ -7,8 +7,15 @@
   :depends-on ("local-time")
   :components ((:module "src"
                 :components
-                ((:file "main" :depends-on ("entry" "journal"))
-                 (:file "userInterface" :depends-on ("entry" "journal")) 
+                ((:file "main" 
+                        :depends-on 
+                        ("entry" 
+                         "journal"))
+                 (:file "userInterface" 
+                        :depends-on 
+                        ("database"
+                         "entry" 
+                         "journal")) 
                  (:file "journal" :depends-on ("entry"))
                  (:file "entry")
                  (:file "database"

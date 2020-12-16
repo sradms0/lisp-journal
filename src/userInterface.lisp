@@ -1,5 +1,9 @@
 (defpackage userInterface
-  (:use :cl :journal-package :entry-package))
+  (:use 
+    :cl 
+    :database-package 
+    :journal-package 
+    :entry-package))
 (in-package :userInterface)
 
 
