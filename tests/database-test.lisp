@@ -71,22 +71,34 @@
                                  (length (read in))))
                             20)))))   
 
-;(deftest load-test
-         ;(testing "loading empty-journal file"
-                  ;(let ((test-db (make-test-db))
-                        ;(test-journal (make-test-journal)))
-                    ;(save-journal test-db test-journal)
-                    ;(load-journal test-db test-journal)
-                    ;(ok (= (length (entries test-journal)) 0))))
+(deftest load-test
+         (testing "loading empty-journal file"
+                  (remove-journal-storage)
+                  (let ((test-db (make-test-db))
+                        (test-journal (make-test-journal)))
+                    (save-journal test-db test-journal)
+                    (load-journal test-db test-journal)
+                    (ok (= (length (entries test-journal)) 0))))
 
-         ;(testing "loading full-journal file"
-                  ;(let ((test-db (make-test-db))
-                        ;(test-journal (make-test-journal)))
-                    ;(save-journal (make-test-db) (add-n-test-entries (make-test-journal) 50))
-                    ;(load-journal test-db test-journal)
-                    ;(ok (= (length (entries test-journal)) 50))))
+         (testing "loading full-journal file"
+                  (remove-journal-storage)
+                  (let ((test-db (make-test-db))
+                        (test-journal (make-test-journal)))
+                    (save-journal (make-test-db) (add-n-test-entries (make-test-journal) 50))
+                    (load-journal test-db test-journal)
+                    (ok (= (length (entries test-journal)) 50))))
 
-         ;(testing "loading non-existent journal file"
-                  ;(if (probe-file "./tests/test.ldb") 
-                      ;(delete-file "./tests/test.ldb"))
-                  ;(ok (signals (load-journal (make-test-db) (make-test-journal))))))
+         (testing "loading non-existent journal file"
+                  (remove-journal-storage)
+                  (ok (signals (load-journal (make-test-db) (make-test-journal)))))
+
+         (testing "loading two journals"
+                  (remove-journal-storage)
+                  (let ((test-db (make-test-db))
+                        (test-journal-1 (add-n-test-entries (make-test-journal "test-owner-1") 40))
+                        (test-journal-2 (add-n-test-entries (make-test-journal "test-owner-2") 20)))
+                      (save-journal test-db test-journal-1)
+                      (save-journal test-db test-journal-2)
+                      (ok (= (length (entries test-journal-1)) 40))
+                      (ok (= (length (entries test-journal-2)) 20)))))   
+                      

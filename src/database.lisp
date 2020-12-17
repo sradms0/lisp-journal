@@ -40,16 +40,16 @@
          (print entries-plist out)))))
   
 (defmethod load-journal ((object database) journal)
-  (cond ((not (probe-file (filepath object))) 
-         (error (concatenate 'string (filepath object) "journal file does not exist")))
-        (t
-            (with-open-file (in (filepath object))
-               (with-standard-io-syntax 
-                 (dolist (props (read in))
-                   (add-entry journal 
-                      (make-instance 'entry 
-                            :date (local-time:parse-timestring (getf props :date))
-                            :title (getf props :title) 
-                            :text (getf props :text)
-                            :bookmark (getf props :bookmark)))))))))  
-
+  (let ((journal-filepath (concatenate 'string (filepath object) (owner journal) ".ldb")))
+      (cond ((not (probe-file journal-filepath)) 
+             (error (concatenate 'string journal-filepath "does not exist")))
+            (t
+                (with-open-file (in journal-filepath)
+                   (with-standard-io-syntax 
+                     (dolist (props (read in))
+                       (add-entry journal 
+                          (make-instance 'entry 
+                                :date (local-time:parse-timestring (getf props :date))
+                                :title (getf props :title) 
+                                :text (getf props :text)
+                                :bookmark (getf props :bookmark))))))))))
