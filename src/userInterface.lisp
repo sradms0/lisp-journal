@@ -8,6 +8,7 @@
 
 (defvar *journal-1*)
 (setf *journal-1* nil)
+
 (defun prompt-read (prompt)
   (format *query-io* "~a: " prompt)
   (force-output *query-io*)
@@ -149,14 +150,10 @@
 )
 
 (defun create-new-journal()
-  
-  (cond (y-or-n-p "Do you want to do create a new journal? [y/n]: ")
-    (create-journal (prompt-read "Enter name of journal")) 
-    (save-user-journal)
-    (load-user-journal)
-  )
-  
-)
+  (cond ((not (y-or-n-p "Do you want to do create a new journal? [y/n]: ")))
+    (create-journal (prompt-read "Enter name of journal"))))
+    ;(save-user-journal)
+    ;(load-user-journal)))
 
 (defun load-journal()
 )
@@ -164,13 +161,10 @@
 (defun main()
   (create-database)
 
-   (loop while(not (*journal-1*))
-      do (create-new-journal)
-   )
-  
+  (loop while(is-empty *db*)
+        do (create-new-journal))
 
   (loop (prompt-user)
-
       (if (not (y-or-n-p "Do you want to do something else? [y/n]: ")) (return))))
 
 
