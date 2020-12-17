@@ -28,7 +28,8 @@
   (ensure-directories-exist "./journal-storage/"))
 
 (defmethod is-empty ((object database))
-  nil)
+  (ensure-storage-exists)
+  (not (uiop:directory-files "./journal-storage/"))) 
 
 (defmethod save-journal ((object database) journal)
     (ensure-storage-exists)

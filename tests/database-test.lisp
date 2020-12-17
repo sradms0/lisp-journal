@@ -1,7 +1,6 @@
 (defpackage database-test
   (:use :cl 
         :rove 
-        :uiop
         :database-package
         :entry-package  
         :journal-package))
