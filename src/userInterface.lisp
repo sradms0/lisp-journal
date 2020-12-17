@@ -33,22 +33,21 @@
   (add-entry-to-journal
     (prompt-read "Enter Title")
     (prompt-read "Enter text"))
-    
+    (print "Added")
     )
 
 (defun search-for-entry-user-input()
-  (search-for-entry
-     *journal-1* (prompt-read "Enter Title to find")))
+   (entry-contents (search-for-entry *journal-1* (prompt-read "Enter Title to find"))))
 
 (defun remove-entry-user-input()
   (remove-entry
     *journal-1* (prompt-read "Enter Title to remove")))    
 
 (defun get-all-entries-user-input()
-    (get-all-entries *journal-1*))
+    (entry-contents-loop(get-all-entries *journal-1*)))
 
 (defun get-all-bookmarked--entries-user-input()
-    (get-all-bookmarked-entries *journal-1*))
+    (entry-contents(get-all-bookmarked-entries *journal-1*)))
 
 (defun edit-title-of-entry-user-input()
     (edit-title (search-for-entry-user-input) (prompt-read "Enter new title"))
@@ -58,12 +57,28 @@
 )
 
 (defun add-bookmark-to-entry()
-  (add-bookmark (search-for-entry-user-input))
+  (add-bookmark (search-for-entry *journal-1* (prompt-read "Enter Title to find")))
 )
 
 (defun remove-bookmark-from-entry()
-  (remove-bookmark (search-for-entry-user-input))
+  (remove-bookmark (search-for-entry *journal-1* (prompt-read "Enter Title to find")))
 )
+
+(defun entry-contents-loop(entries)
+ (let ((found ()))
+  (dolist (n-entry entries)
+       (setf found (append (entry-contents n-entry) found)) found))
+
+
+(defun entry-contents(entryIn)
+   (list 
+      (entry-package:date entryIn) 
+      (entry-package:title entryIn) 
+      (entry-package:text entryIn) 
+      (entry-package:bookmark entryIn)))
+      
+
+
 
 (defun create-database()
   (defvar *db*)
@@ -114,4 +129,4 @@
       (if (not (y-or-n-p "Do you want to do something else? [y/n]: ")) (return))))
 
 
-;(main)
+(main)
