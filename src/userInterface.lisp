@@ -104,32 +104,37 @@
 )
 
 (defun load-user-journal()
-  (if (probe-file (filepath *db*))
-    (save-user-journal)
-  ) 
-  (load-journal *db*  *journal-1*)
+  (setf *journal-1* (make-instance 
+    'journal :owner (prompt-read "Enter the name to load the journal")))
+    (load-journal *db* *journal-1*)
+    (print "loaded")
 )
+
+
   
 (defun prompt-user ()
     (let ((user-input ""))
     
-    (setf user-input (prompt-read "Do you want to 
-    add entry[1], searchForEntry[2], 
-    remove entry[3], get all entries[4], 
-    get all bookedmared entries[5], edit title of entry[6], edit text of entry[7], 
-    add book mark to entry[8], or remove bookmark[9] "))
-        
+    (setf user-input (prompt-read "Do you want to  load journal[0] create journal[1]
+    add entry[2], searchForEntry[3], 
+    remove entry[4], get all entries[5], 
+    get all bookedmared entries[6], edit title of entry[7], edit text of entry[9], 
+    add book mark to entry[9], or remove bookmark[10], go to main[11] "))
+       
         (cond
-            ((= (parse-integer user-input) 0 ) (create-new-journal))
-            ((= (parse-integer user-input) 1 ) (protect #'add-entry-user-input))
-            ((= (parse-integer user-input) 2 ) (print(protect #'search-for-entry-user-input)))
-            ((= (parse-integer user-input) 3 ) (remove-entry-user-input))
-            ((= (parse-integer user-input) 4 ) (print(get-all-entries-user-input)))
-            ((= (parse-integer user-input) 5 ) (print(get-all-bookmarked--entries-user-input)))
-            ((= (parse-integer user-input) 6 ) (protect #'edit-title-of-entry-user-input))
-            ((= (parse-integer user-input) 7 ) (protect #'edit-text-of-entry-user-input))
-            ((= (parse-integer user-input) 8 ) (protect #'add-bookmark-to-entry))
-            ((= (parse-integer user-input) 9 ) (protect #'remove-bookmark-from-entry))
+            ((= (parse-integer user-input) 0 ) (protect #'load-user-journal))
+            ((= (parse-integer user-input) 1 ) (protect #'create-new-journal))
+            ((= (parse-integer user-input) 2 ) (protect #'add-entry-user-input))
+            ((= (parse-integer user-input) 3 ) (print(protect #'search-for-entry-user-input)))
+            ((= (parse-integer user-input) 4 ) (protect #'remove-entry-user-input))
+            ((= (parse-integer user-input) 5 ) (print(protect #'get-all-entries-user-input)))
+            ((= (parse-integer user-input) 6 ) (print(protect #'get-all-bookmarked--entries-user-input)))
+            ((= (parse-integer user-input) 7 ) (protect #'edit-title-of-entry-user-input))
+            ((= (parse-integer user-input) 8 ) (protect #'edit-text-of-entry-user-input))
+            ((= (parse-integer user-input) 9 ) (protect #'add-bookmark-to-entry))
+            ((= (parse-integer user-input) 10 ) (protect #'remove-bookmark-from-entry))
+            ((= (parse-integer user-input) 11 ) (protect #'main))
+
         )(save-user-journal)
         )
   
@@ -137,13 +142,13 @@
 
 ;;Catches errors
 (defun protect(method)
-  (handler-case
-    (progn
-      (funcall method)))
+ (handler-case (funcall method)
   (t (c)
-    (format t "Got an error: ~a~%" c)
-    (values 0 c)(protect method)))
-
+    (format t "Got an exception: ~a~%" c)
+    (values  c)
+    (progn
+      (protect method))))
+)
 
 (defun protected-main()
   (protect #'main)
@@ -156,29 +161,23 @@
 )
     
 
-
-
 (defun main()
   (create-database)
-  ;; (if (is-empty *db*)
-  ;;   (create-new-journal))
+  
   (setf *journal-1* nil)
   (loop while(is-empty *db*)
         do (create-new-journal))
   
-
+  
   (if (not *journal-1*)
-  (progn
-    (setf *journal-1* (make-instance 
-    'journal :owner (prompt-read "Enter the name to load the journal")))
-    (load-journal *db* *journal-1*))
+    (load-user-journal)
   )
   
   (loop (prompt-user)
       
-      (if (not (y-or-n-p "Do you want to do something else? [y/n]: ")) (return))))
+      (if (not (y-or-n-p "Do you want to do something else? [y/n]: ")) (return)))
+)
 
-;; (main)
 (protected-main)
 
 
