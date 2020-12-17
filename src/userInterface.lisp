@@ -7,7 +7,7 @@
 (in-package :userInterface)
 
 (defvar *journal-1*)
-(setf *journal-1* nil)
+;;(setf *journal-1* nil)
 
 (defun prompt-read (prompt)
   (format *query-io* "~a: " prompt)
@@ -104,7 +104,7 @@
 )
 
 (defun load-user-journal()
-  (if (not (probe-file (filepath *db*)))
+  (if (probe-file (filepath *db*))
     (save-user-journal)
   ) 
   (load-journal *db*  *journal-1*)
@@ -120,12 +120,12 @@
     add book mark to entry[8], or remove bookmark[9] "))
         
         (cond
-            ((= (parse-integer user-input) 0 ) (protect #'create-new-journal))
+            ((= (parse-integer user-input) 0 ) (create-new-journal))
             ((= (parse-integer user-input) 1 ) (protect #'add-entry-user-input))
             ((= (parse-integer user-input) 2 ) (print(protect #'search-for-entry-user-input)))
-            ((= (parse-integer user-input) 3 ) (protect #'remove-entry-user-input))
-            ((= (parse-integer user-input) 4 ) (print(protect #'get-all-entries-user-input)))
-            ((= (parse-integer user-input) 5 ) (print(protect #'get-all-bookmarked--entries-user-input)))
+            ((= (parse-integer user-input) 3 ) (remove-entry-user-input))
+            ((= (parse-integer user-input) 4 ) (print(get-all-entries-user-input)))
+            ((= (parse-integer user-input) 5 ) (print(get-all-bookmarked--entries-user-input)))
             ((= (parse-integer user-input) 6 ) (protect #'edit-title-of-entry-user-input))
             ((= (parse-integer user-input) 7 ) (protect #'edit-text-of-entry-user-input))
             ((= (parse-integer user-input) 8 ) (protect #'add-bookmark-to-entry))
@@ -150,30 +150,35 @@
 )
 
 (defun create-new-journal()
-  (if (y-or-n-p "Do you want to do create a new journal? [y/n]: ")
-      (progn 
-        (create-journal (prompt-read "Enter name of journal"))
-        (save-user-journal) 
-        (load-user-journal))))
-    ;(print "doing something again")))
-    ;(print "doing something aagain again")))  
-    ;(create-journal (prompt-read "Enter name of journal"))))
-    ;(save-user-journal)
-    ;(load-user-journal)))
-
-(defun load-journal()
+  (create-journal (prompt-read "Enter name of new journal"))
+  (save-user-journal)
+  (load-journal *db* *journal-1*)
 )
+    
+
+
 
 (defun main()
   (create-database)
-
+  ;; (if (is-empty *db*)
+  ;;   (create-new-journal))
+  (setf *journal-1* nil)
   (loop while(is-empty *db*)
         do (create-new-journal))
+  
 
+  (if (not *journal-1*)
+  (progn
+    (setf *journal-1* (make-instance 
+    'journal :owner (prompt-read "Enter the name to load the journal")))
+    (load-journal *db* *journal-1*))
+  )
+  
   (loop (prompt-user)
+      
       (if (not (y-or-n-p "Do you want to do something else? [y/n]: ")) (return))))
 
-
+;; (main)
 (protected-main)
 
 
