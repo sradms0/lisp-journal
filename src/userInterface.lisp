@@ -6,6 +6,8 @@
     :entry-package))
 (in-package :userInterface)
 
+(defvar *journal-1*)
+(setf *journal-1* nil)
 (defun prompt-read (prompt)
   (format *query-io* "~a: " prompt)
   (force-output *query-io*)
@@ -16,9 +18,9 @@
 ;asks user what function to run
 ;runs selected function
 
+
 (defun create-journal(journalName)
-  (defvar *journal-1*)
-    (setf *journal-1* (make-instance 'journal :owner journalName))
+  (setf *journal-1* (make-instance 'journal :owner journalName))
     (concatenate 'string (owner *journal-1*) " created")
 )
 
@@ -162,8 +164,8 @@
 (defun main()
   (create-database)
 
-   (loop while(not *journal-1*)
-      (do (create-new-journal))
+   (loop while(not (*journal-1*))
+      do (create-new-journal)
    )
   
 
