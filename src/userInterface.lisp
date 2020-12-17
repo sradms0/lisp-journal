@@ -47,28 +47,32 @@
     (entry-contents-loop(get-all-entries *journal-1*)))
 
 (defun get-all-bookmarked--entries-user-input()
-    (entry-contents(get-all-bookmarked-entries *journal-1*)))
+    (entry-contents-loop(get-all-bookmarked-entries *journal-1*)))
 
 (defun edit-title-of-entry-user-input()
     (edit-title (search-for-entry-user-input) (prompt-read "Enter new title"))
+    (print "Edited title")
 )
 (defun edit-text-of-entry-user-input()
     (edit-text (search-for-entry-user-input) (prompt-read "Enter new text"))
+    (print "Edited text")
 )
 
 (defun add-bookmark-to-entry()
   (add-bookmark (search-for-entry *journal-1* (prompt-read "Enter Title to find")))
+  (print "Bookmark added")
 )
 
 (defun remove-bookmark-from-entry()
   (remove-bookmark (search-for-entry *journal-1* (prompt-read "Enter Title to find")))
+  (print "Bookmark removed")
 )
 
 (defun entry-contents-loop(entries)
  (let ((found ()))
   (dolist (n-entry entries)
-       (setf found (append (entry-contents n-entry) found)) found))
-
+       (setf found (cons (entry-contents n-entry) found))) found)
+)
 
 (defun entry-contents(entryIn)
    (list 
@@ -106,14 +110,13 @@
     add book mark to entry[8], or remove bookmark[9] "))
         
         (cond
-            ;;((= (parse-integer user-input) 0 ) (print(create-journal (prompt-read "Enter name of journal"))))
             ((= (parse-integer user-input) 1 ) (add-entry-user-input))
             ((= (parse-integer user-input) 2 ) (print(search-for-entry-user-input)))
             ((= (parse-integer user-input) 3 ) (remove-entry-user-input))
             ((= (parse-integer user-input) 4 ) (print(get-all-entries-user-input)))
             ((= (parse-integer user-input) 5 ) (print(get-all-bookmarked--entries-user-input)))
-            ((= (parse-integer user-input) 6 ) (print(edit-title-of-entry-user-input)))
-            ((= (parse-integer user-input) 7 ) (print(edit-text-of-entry-user-input)))
+            ((= (parse-integer user-input) 6 ) (edit-title-of-entry-user-input))
+            ((= (parse-integer user-input) 7 ) (edit-text-of-entry-user-input))
             ((= (parse-integer user-input) 8 ) (add-bookmark-to-entry))
             ((= (parse-integer user-input) 9 ) (remove-bookmark-from-entry))
         )(save-user-journal)
@@ -123,7 +126,7 @@
 
 (defun main()
   (create-database)
-  (create-journal "demo")
+  (create-journal (prompt-read "Enter name of journal"))
   (load-user-journal)
   (loop (prompt-user)
       (if (not (y-or-n-p "Do you want to do something else? [y/n]: ")) (return))))
