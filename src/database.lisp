@@ -3,7 +3,7 @@
         :local-time
         :entry-package 
         :journal-package)
-  (:export :database
+  (:export :make-database
            :data
            :filepath
            :save-journal
@@ -13,12 +13,16 @@
 
 (defclass database ()
   ((filepath
-     :initarg :filepath
-     :initform (error "must supply filepath")
+     :initform "./journal-storage/"
      :accessor filepath)
    (data
      :initform ()))
   (:documentation "Persists journals and their entries to a file"))
+
+(defun make-database ()
+  (ensure-directories-exist "./journal-storage/")
+  (make-instance 'database))
+  
 
 (defmethod save-journal ((object database) journal)
     (let ((entries-plist ()))
