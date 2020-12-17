@@ -33,7 +33,7 @@
                 :text (text n-entry)
                 :bookmark (bookmark n-entry)) 
               entries-plist))
-      (with-open-file (out (filepath object)
+      (with-open-file (out (concatenate 'string (filepath object) (owner journal) ".ldb")
                            :direction :output
                            :if-exists :supersede)
        (with-standard-io-syntax

@@ -14,8 +14,8 @@
 (defun make-test-db ()
   (make-database))
   
-(defun make-test-journal ()
-  (make-instance 'journal :owner "test-owner"))
+(defun make-test-journal (&optional (test-owner "test-owner"))
+  (make-instance 'journal :owner test-owner))
 
 (defun make-test-entry (suffix &optional with-bookmark)
   (make-instance 'entry 
@@ -38,21 +38,38 @@
            (make-test-db)
            (ok (equal (not (probe-file "./journal-storage/")) nil))))
 
-;(deftest save-test
-         ;(testing "saving empty-journal"
-                  ;(save-journal (make-test-db) (make-test-journal))
-                  ;(ok (equal 
-                        ;(with-open-file (in "tests/test.ldb")
-                           ;(with-standard-io-syntax 
-                             ;(format nil "~{~A~}"(read in))))
-                        ;"")))
-         ;(testing "saving full-journal"
-                  ;(save-journal (make-test-db) (add-n-test-entries (make-test-journal) 50))
-                  ;(ok (= 
-                        ;(with-open-file (in "tests/test.ldb")
-                           ;(with-standard-io-syntax 
-                             ;(length (read in))))
-                        ;50))))
+(deftest save-test
+         (testing "saving empty-journal"
+                  (remove-journal-storage)
+                  (save-journal (make-test-db) (make-test-journal))
+                  (ok (equal 
+                        (with-open-file (in "./journal-storage/test-owner.ldb")
+                           (with-standard-io-syntax 
+                             (format nil "~{~A~}"(read in))))
+                        "")))
+         (testing "saving full-journal"
+                  (remove-journal-storage)
+                  (save-journal (make-test-db) (add-n-test-entries (make-test-journal) 50))
+                  (ok (= 
+                        (with-open-file (in "./journal-storage/test-owner.ldb")
+                           (with-standard-io-syntax 
+                             (length (read in))))
+                        50)))
+         (testing "saving two journals"
+                  (remove-journal-storage)
+                  (let ((test-db (make-test-db)))
+                      (save-journal test-db (add-n-test-entries (make-test-journal "test-owner-1") 40))
+                      (save-journal test-db (add-n-test-entries (make-test-journal "test-owner-2") 20))
+                      (ok (= 
+                            (with-open-file (in "./journal-storage/test-owner-1.ldb")
+                               (with-standard-io-syntax 
+                                 (length (read in))))
+                            40))
+                      (ok (= 
+                            (with-open-file (in "./journal-storage/test-owner-2.ldb")
+                               (with-standard-io-syntax 
+                                 (length (read in))))
+                            20)))))   
 
 ;(deftest load-test
          ;(testing "loading empty-journal file"
