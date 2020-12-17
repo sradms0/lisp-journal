@@ -51,7 +51,7 @@
   (ensure-storage-exists)
   (let ((journal-filepath (concatenate 'string (filepath object) (owner journal) ".ldb")))
       (cond ((not (probe-file journal-filepath)) 
-             (error (concatenate 'string journal-filepath "does not exist")))
+             (error (concatenate 'string journal-filepath " does not exist")))
             (t
                 (with-open-file (in journal-filepath)
                    (with-standard-io-syntax 

@@ -37,11 +37,18 @@
     )
 
 (defun search-for-entry-user-input()
-   (entry-contents (search-for-entry *journal-1* (prompt-read "Enter Title to find"))))
+   (entry-contents (search-for-entry *journal-1* (prompt-read "Enter Title to find")))
+)
+
+(defun entry-search-user-input()
+  (search-for-entry *journal-1* (prompt-read "Enter Title to find"))
+)
 
 (defun remove-entry-user-input()
   (remove-entry
-    *journal-1* (prompt-read "Enter Title to remove")))    
+    *journal-1* (prompt-read "Enter Title to remove"))
+    (print "Removed Entry")
+    )    
 
 (defun get-all-entries-user-input()
     (entry-contents-loop(get-all-entries *journal-1*)))
@@ -50,11 +57,11 @@
     (entry-contents-loop(get-all-bookmarked-entries *journal-1*)))
 
 (defun edit-title-of-entry-user-input()
-    (edit-title (search-for-entry-user-input) (prompt-read "Enter new title"))
+    (edit-title (entry-search-user-input) (prompt-read "Enter new title"))
     (print "Edited title")
 )
 (defun edit-text-of-entry-user-input()
-    (edit-text (search-for-entry-user-input) (prompt-read "Enter new text"))
+    (edit-text (entry-search-user-input) (prompt-read "Enter new text"))
     (print "Edited text")
 )
 
@@ -104,8 +111,8 @@
     (let ((user-input ""))
     
     (setf user-input (prompt-read "Do you want to 
-    'add entry[1]', 'searchForEntry[2]', 
-    'remove entry[3]', 'get all entries[4], 
+    add entry[1], searchForEntry[2], 
+    remove entry[3], get all entries[4], 
     get all bookedmared entries[5], edit title of entry[6], edit text of entry[7], 
     add book mark to entry[8], or remove bookmark[9] "))
         
@@ -124,6 +131,16 @@
   
 )
 
+
+(defun protect(method)
+  (handler-case
+    (progn
+      (funcall method))
+  (t (c)
+    (format t "Got an error: ~a~%" c)
+    (values 0 c)(protected-main method)))
+)
+
 (defun main()
   (create-database)
   (create-journal (prompt-read "Enter name of journal"))
@@ -133,4 +150,9 @@
       (if (not (y-or-n-p "Do you want to do something else? [y/n]: ")) (return))))
 
 
-(main)
+(protect #'main)
+;;Catches errors
+
+
+
+
