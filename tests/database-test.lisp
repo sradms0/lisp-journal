@@ -69,7 +69,20 @@
                             (with-open-file (in "./journal-storage/test-owner-2.ldb")
                                (with-standard-io-syntax 
                                  (length (read in))))
-                            20)))))   
+                            20))))
+         (testing "saving after storage removed"
+                  (remove-journal-storage)
+                  (let ((test-db (make-test-db))
+                        (test-journal (add-test-entry (make-test-journal) "1")))
+                    (remove-journal-storage)
+                    (save-journal test-db test-journal)
+                    (ok (= 
+                            (with-open-file (in "./journal-storage/test-owner.ldb")
+                               (with-standard-io-syntax 
+                                 (length (read in))))
+                            1)))))
+                    
+                    
 
 (deftest load-test
          (testing "loading empty-journal file"
@@ -101,4 +114,3 @@
                       (save-journal test-db test-journal-2)
                       (ok (= (length (entries test-journal-1)) 40))
                       (ok (= (length (entries test-journal-2)) 20)))))   
-                      

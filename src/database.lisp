@@ -20,11 +20,14 @@
   (:documentation "Persists journals and their entries to a file"))
 
 (defun make-database ()
-  (ensure-directories-exist "./journal-storage/")
+  (ensure-storage-exists)
   (make-instance 'database))
-  
 
+(defun ensure-storage-exists ()
+  (ensure-directories-exist "./journal-storage/"))
+  
 (defmethod save-journal ((object database) journal)
+    (ensure-storage-exists)
     (let ((entries-plist ()))
       (dolist (n-entry (entries journal))
         (push (list 
@@ -40,6 +43,7 @@
          (print entries-plist out)))))
   
 (defmethod load-journal ((object database) journal)
+  (ensure-storage-exists)
   (let ((journal-filepath (concatenate 'string (filepath object) (owner journal) ".ldb")))
       (cond ((not (probe-file journal-filepath)) 
              (error (concatenate 'string journal-filepath "does not exist")))
