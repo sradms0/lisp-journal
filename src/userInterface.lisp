@@ -139,19 +139,25 @@
 (defun protect(method)
   (handler-case
     (progn
-      (funcall method))
+      (funcall method)))
   (t (c)
     (format t "Got an error: ~a~%" c)
     (values 0 c)(protect method)))
-)
+
 
 (defun protected-main()
   (protect #'main)
 )
 
 (defun create-new-journal()
-  (cond ((not (y-or-n-p "Do you want to do create a new journal? [y/n]: ")))
-    (create-journal (prompt-read "Enter name of journal"))))
+  (if (y-or-n-p "Do you want to do create a new journal? [y/n]: ")
+      (progn 
+        (create-journal (prompt-read "Enter name of journal"))
+        (save-user-journal) 
+        (load-user-journal))))
+    ;(print "doing something again")))
+    ;(print "doing something aagain again")))  
+    ;(create-journal (prompt-read "Enter name of journal"))))
     ;(save-user-journal)
     ;(load-user-journal)))
 
