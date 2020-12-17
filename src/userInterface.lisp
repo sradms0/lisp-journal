@@ -85,9 +85,9 @@
 
 
 (defun create-database()
-  (defvar *db*)
-   (setf *db* (make-instance 'database :filepath "./journal.ldb"))
-)
+  (defvar *db*
+   (setf *db* (make-database))))
+
 
 (defun save-user-journal()
   (save-journal *db*  *journal-1*)
@@ -127,9 +127,10 @@
 (defun main()
   (create-database)
   (create-journal (prompt-read "Enter name of journal"))
+  (if (is-empty *db*) (save-user-journal))
   (load-user-journal)
   (loop (prompt-user)
       (if (not (y-or-n-p "Do you want to do something else? [y/n]: ")) (return))))
 
 
-;(main)
+(main)
