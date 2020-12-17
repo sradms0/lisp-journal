@@ -6,6 +6,7 @@
   (:export :make-database
            :data
            :filepath
+           :is-empty
            :save-journal
            :load-journal))  
            
@@ -25,7 +26,10 @@
 
 (defun ensure-storage-exists ()
   (ensure-directories-exist "./journal-storage/"))
-  
+
+(defmethod is-empty ((object database))
+  nil)
+
 (defmethod save-journal ((object database) journal)
     (ensure-storage-exists)
     (let ((entries-plist ()))

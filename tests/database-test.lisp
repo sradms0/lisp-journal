@@ -82,8 +82,6 @@
                                  (length (read in))))
                             1)))))
                     
-                    
-
 (deftest load-test
          (testing "loading empty-journal file"
                   (remove-journal-storage)
@@ -122,3 +120,12 @@
                     (save-journal (make-test-db) (add-n-test-entries (make-test-journal) 50))
                     (remove-journal-storage)
                     (ok (signals (load-journal test-db test-journal))))))
+(deftest empty-test
+         (remove-journal-storage)
+         (testing "no journals exist"
+                  (ok (equal (is-empty (make-test-db)) t)))
+         (testing "journals exist"
+                  (let ((test-db (make-test-db))
+                        (test-journal (make-test-journal)))
+                    (save-journal test-db test-journal)
+                    (ok (equal (is-empty test-db) nil)))))
