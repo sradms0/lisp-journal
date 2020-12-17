@@ -113,4 +113,12 @@
                       (save-journal test-db test-journal-1)
                       (save-journal test-db test-journal-2)
                       (ok (= (length (entries test-journal-1)) 40))
-                      (ok (= (length (entries test-journal-2)) 20)))))   
+                      (ok (= (length (entries test-journal-2)) 20))))   
+
+         (testing "loading after storage removed"
+                  (remove-journal-storage)
+                  (let ((test-db (make-test-db))
+                        (test-journal (make-test-journal)))
+                    (save-journal (make-test-db) (add-n-test-entries (make-test-journal) 50))
+                    (remove-journal-storage)
+                    (ok (signals (load-journal test-db test-journal))))))
