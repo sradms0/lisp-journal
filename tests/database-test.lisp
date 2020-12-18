@@ -128,3 +128,10 @@
                         (test-journal (make-test-journal)))
                     (save-journal test-db test-journal)
                     (ok (equal (is-empty test-db) nil)))))
+
+(deftest get-journal-listing-test
+         (remove-journal-storage)
+         (testing "no journals"
+                  (ok (equal 
+                        (get-journal-listing (make-test-db)) 
+                        "There are no journals in storage"))))

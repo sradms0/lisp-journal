@@ -7,6 +7,7 @@
            :data
            :filepath
            :is-empty
+           :get-journal-listing
            :save-journal
            :load-journal))  
            
@@ -26,6 +27,11 @@
 
 (defun ensure-storage-exists ()
   (ensure-directories-exist "./journal-storage/"))
+
+(defmethod get-journal-listing ((object database))
+  nil)
+  
+  
 
 (defmethod is-empty ((object database))
   (ensure-storage-exists)

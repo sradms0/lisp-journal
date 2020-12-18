@@ -3,4 +3,4 @@
         :userInterface-package))
 (in-package :lisp-journal)
 
-(userInterface-package:protected-main)
+;(userInterface-package:protected-main)
