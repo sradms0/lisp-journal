@@ -124,22 +124,31 @@
     add book mark to entry[9], or remove bookmark[10], go to main[11] "))
        
         (cond
-            ((= (parse-integer user-input) 0 ) (protect #'load-user-journal))
-            ((= (parse-integer user-input) 1 ) (protect #'create-new-journal))
-            ((= (parse-integer user-input) 2 ) (protect #'add-entry-user-input))
-            ((= (parse-integer user-input) 3 ) (print(protect #'search-for-entry-user-input)))
-            ((= (parse-integer user-input) 4 ) (protect #'remove-entry-user-input))
-            ((= (parse-integer user-input) 5 ) (print(protect #'get-all-entries-user-input)))
-            ((= (parse-integer user-input) 6 ) (print(protect #'get-all-bookmarked--entries-user-input)))
-            ((= (parse-integer user-input) 7 ) (protect #'edit-title-of-entry-user-input))
-            ((= (parse-integer user-input) 8 ) (protect #'edit-text-of-entry-user-input))
-            ((= (parse-integer user-input) 9 ) (protect #'add-bookmark-to-entry))
-            ((= (parse-integer user-input) 10 ) (protect #'remove-bookmark-from-entry))
-            ((= (parse-integer user-input) 11 ) (protect #'main))
+            ((= (parse-integer user-input) 0 ) (protect-prompt #'load-user-journal))
+            ((= (parse-integer user-input) 1 ) (protect-prompt #'create-new-journal))
+            ((= (parse-integer user-input) 2 ) (protect-prompt #'add-entry-user-input))
+            ((= (parse-integer user-input) 3 ) (print(protect-prompt #'search-for-entry-user-input)))
+            ((= (parse-integer user-input) 4 ) (protect-propmpt #'remove-entry-user-input))
+            ((= (parse-integer user-input) 5 ) (print(protect-prompt #'get-all-entries-user-input)))
+            ((= (parse-integer user-input) 6 ) (print(protect-prompt #'get-all-bookmarked--entries-user-input)))
+            ((= (parse-integer user-input) 7 ) (protect-prompt #'edit-title-of-entry-user-input))
+            ((= (parse-integer user-input) 8 ) (protect-prompt #'edit-text-of-entry-user-input))
+            ((= (parse-integer user-input) 9 ) (protect-prompt #'add-bookmark-to-entry))
+            ((= (parse-integer user-input) 10 ) (protect-prompt #'remove-bookmark-from-entry))
+            ((= (parse-integer user-input) 11 ) (protect-prompt #'main))
 
         )(save-user-journal)
         )
   
+)
+
+(defun protect-prompt(method)
+ (handler-case (funcall method)
+  (t (c)
+    (format t "Got an exception: ~a~%" c)
+    (values  c)
+    (progn
+      (prompt-user))))
 )
 
 ;;Catches errors
