@@ -9,8 +9,7 @@
                 :components
                 ((:file "main" 
                         :depends-on 
-                        ("entry" 
-                         "journal"))
+                        ("userInterface"))
                  (:file "userInterface" 
                         :depends-on 
                         ("database"

@@ -1,10 +1,12 @@
-(defpackage userInterface
+(defpackage userInterface-package
   (:use 
     :cl 
     :database-package 
     :journal-package 
-    :entry-package))
-(in-package :userInterface)
+    :entry-package)
+  (:export 
+    :protected-main))
+(in-package :userInterface-package)
 
 (defvar *journal-1*)
 ;;(setf *journal-1* nil)
@@ -170,17 +172,8 @@
   
   
   (if (not *journal-1*)
-    (load-user-journal)
-  )
+    (load-user-journal))
+  
   
   (loop (prompt-user)
-      
-      (if (not (y-or-n-p "Do you want to do something else? [y/n]: ")) (return)))
-)
-
-(protected-main)
-
-
-
-
-
+      (if (not (y-or-n-p "Do you want to do something else? [y/n]: ")) (return))))
