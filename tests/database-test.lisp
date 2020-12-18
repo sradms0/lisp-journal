@@ -130,8 +130,27 @@
                     (ok (equal (is-empty test-db) nil)))))
 
 (deftest get-journal-listing-test
-         (remove-journal-storage)
          (testing "no journals"
+           (remove-journal-storage)
+           (ok (equal 
+                 (first (get-journal-listing (make-test-db))) 
+                 "There are no journals in storage")))
+
+         (testing "one journal"
+                  (remove-journal-storage)
+                  (save-journal (make-test-db) (make-test-journal "test-owner-1"))
                   (ok (equal 
                         (first (get-journal-listing (make-test-db))) 
-                        "There are no journals in storage"))))
+                        "test-owner-1")))
+
+         (testing "more than one journal"
+                  (remove-journal-storage)
+                  (save-journal (make-test-db) (make-test-journal "test-owner-1"))
+                  (save-journal (make-test-db) (make-test-journal "test-owner-2"))
+                  (save-journal (make-test-db) (make-test-journal "test-owner-3"))
+                  (ok (equal 
+                        (get-journal-listing (make-test-db)) 
+                        (list "test-owner-1"
+                              "test-owner-2"
+                              "test-owner-3")))))
+                               
