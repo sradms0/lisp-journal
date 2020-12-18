@@ -120,7 +120,7 @@
     (setf user-input (prompt-read "Do you want to  load journal[0] create journal[1]
     add entry[2], searchForEntry[3], 
     remove entry[4], get all entries[5], 
-    get all bookedmared entries[6], edit title of entry[7], edit text of entry[9], 
+    get all bookedmared entries[6], edit title of entry[7], edit text of entry[8], 
     add book mark to entry[9], or remove bookmark[10], go to main[11] "))
        
         (cond
@@ -128,7 +128,7 @@
             ((= (parse-integer user-input) 1 ) (protect-prompt #'create-new-journal))
             ((= (parse-integer user-input) 2 ) (protect-prompt #'add-entry-user-input))
             ((= (parse-integer user-input) 3 ) (print(protect-prompt #'search-for-entry-user-input)))
-            ((= (parse-integer user-input) 4 ) (protect-propmpt #'remove-entry-user-input))
+            ((= (parse-integer user-input) 4 ) (protect-prompt #'remove-entry-user-input))
             ((= (parse-integer user-input) 5 ) (print(protect-prompt #'get-all-entries-user-input)))
             ((= (parse-integer user-input) 6 ) (print(protect-prompt #'get-all-bookmarked--entries-user-input)))
             ((= (parse-integer user-input) 7 ) (protect-prompt #'edit-title-of-entry-user-input))
