@@ -29,9 +29,11 @@
   (ensure-directories-exist "./journal-storage/"))
 
 (defmethod get-journal-listing ((object database))
-  nil)
-  
-  
+  (let ((journal-listing ()))
+    (dolist (file-path (uiop:directory-files "./journal-storage/"))
+      (setf journal-listing (append journal-listing (list (pathname-name file-path)))))
+    (cond ((not journal-listing) (list "There are no journals in storage"))
+          (t journal-listing))))
 
 (defmethod is-empty ((object database))
   (ensure-storage-exists)
