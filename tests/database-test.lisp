@@ -110,7 +110,7 @@
                       (save-journal test-db test-journal-1)
                       (save-journal test-db test-journal-2)
                       (ok (= (length (entries test-journal-1)) 40))
-                      (ok (= (length (entries test-journal-2)) 20))))   
+                      (ok (= (length (entries test-journal-2)) 20))))
 
          (testing "loading after storage removed"
                   (remove-journal-storage)
@@ -133,5 +133,5 @@
          (remove-journal-storage)
          (testing "no journals"
                   (ok (equal 
-                        (get-journal-listing (make-test-db)) 
+                        (first (get-journal-listing (make-test-db))) 
                         "There are no journals in storage"))))
